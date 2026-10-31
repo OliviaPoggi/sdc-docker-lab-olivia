@@ -1,0 +1,30 @@
+services:
+  # FastAPI backend. It is not published on a port for the frontend's sake:
+  # the frontend reaches it over the internal network. Port 8000 is exposed
+  # on the host only so the API docs can be opened at localhost:8000/docs.
+  backend:
+    build: ./backend
+    container_name: backend-container
+    ports:
+      - "8000:8000"
+    networks:
+      - app-network
+
+  # Streamlit frontend.
+  frontend:
+    build: ./frontend
+    container_name: frontend-container
+    environment:
+      # "backend" is the service name above. Compose's internal DNS resolves
+      # it to that container, so no IP address is needed.
+      APP_BACKEND_URL: http://backend:8000
+    ports:
+      - "8501:8501"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

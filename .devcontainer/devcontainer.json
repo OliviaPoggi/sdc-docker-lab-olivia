@@ -1,0 +1,12 @@
+{
+  "name": "docker-lab",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "forwardPorts": [8501, 8000],
+  "portsAttributes": {
+    "8501": { "label": "Streamlit frontend" },
+    "8000": { "label": "FastAPI backend" }
+  }
+}
